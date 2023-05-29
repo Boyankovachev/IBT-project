@@ -1,0 +1,67 @@
+<div class="w-100 h-100" *ngIf="!hasVoted">
+    <h1 class="text-center mt-3">{{survey?.name}}</h1>
+    <ng-container
+        [formGroup]="form"
+    >
+        <div 
+                *ngFor="let question of survey?.questions;let i=index;"
+                class="p-3"
+            >    
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>
+                            {{question.questionText}}
+                        </mat-card-title>
+                        <mat-card-subtitle>question {{i+1}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                            <mat-radio-group [formControlName]="'question' + i">
+                                <mat-radio-button *ngFor="let answer of question.answers" [value]="answer">
+                                    {{answer.answerText}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                    </mat-card-content>
+                </mat-card>
+        </div>
+    </ng-container>
+    <div class="p-3">
+        <button 
+            mat-raised-button 
+            color="primary"
+            (click)="castVotesClicked()"
+            [disabled]="!this.form.valid"
+        >Cast votes</button>
+    </div>
+</div>
+
+<div class="h-100 w-100" *ngIf="hasVoted && !hasClickedShowResults"
+    style="display: flex; flex-direction: column; align-content: center; flex-wrap: wrap;"
+>
+        <h1 class="mt-3">Voting successfull</h1>
+        <button mat-raised-button 
+            color="primary" 
+            (click)="showResultsClicked()" 
+            [disabled]="!this.form.valid"
+        >
+            Show results
+        </button>
+</div>
+
+<div *ngIf="hasClickedShowResults">
+    <h1 class="text-center mt-3">{{survey?.name}} Results</h1>
+    <div *ngFor="let question of survey?.questions;let i=index;" class="p-3">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    {{question.questionText}}
+                </mat-card-title>
+                <mat-card-subtitle>question {{i+1}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngFor="let answer of question.answers">
+                    <span>{{answer.answerText}} : {{answer.votes}}</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

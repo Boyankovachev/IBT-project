@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>
+    <p>Add a survey</p>
+    <mat-form-field appearance="outline" [color]="'accent'">
+        <mat-label>Survey name</mat-label>
+        <input matInput [(ngModel)]="surveyName">
+    </mat-form-field>
+</h1>
+
+<div mat-dialog-content>
+
+    <div *ngFor="let question of questions;let i=index;">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    <mat-form-field appearance="outline" [color]="'accent'">
+                        <mat-label>Question {{i+1}} text</mat-label>
+                        <input matInput [(ngModel)]="question.questionText" >
+                        <mat-icon matSuffix>?</mat-icon>
+                    </mat-form-field>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngFor="let answer of question.answers;let j=index;" style="margin-left: 20px;">
+                    <mat-form-field appearance="outline" [color]="'primary'">
+                        <mat-label>Answer {{j+1}} text</mat-label>
+                        <input matInput [(ngModel)]="answer.answerText">
+                        <mat-icon matSuffix>question_answer</mat-icon>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button (click)="addAnswer(question)">Add answer</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <button mat-button (click)="addQuestion()" class="mt-3">Add question</button>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="okClicked()">Ok</button>
+</div>
